@@ -34,5 +34,6 @@ theme_override_font_sizes/font_size = 40
 text = "open image"
 flat = true
 
+[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="file_selected" from="loadDialog" to="." method="_on_load_dialog_file_selected"]
 [connection signal="pressed" from="CenterContainer/Button" to="." method="_button_pressed" binds= ["load"]]
