@@ -182,13 +182,13 @@ func _input(event: InputEvent) -> void:
 # load image safely from file path and update display
 func load_image_from_path(path: String) -> bool:
 	if path.is_empty() or not FileAccess.file_exists(path):
-		show_error("File does not exist: " + path)
+		show_error("Specified file does not exist: " + path)
 		return false
 
 	var img: Image = Image.new()
 	var err: Error = img.load(path)
 	if err != OK:
-		show_error("Failed to load image file (error code %d): %s" % [err, path])
+		show_error("Failed to load file (error code %d): %s" % [err, path])
 		return false
 
 	current_image = img
