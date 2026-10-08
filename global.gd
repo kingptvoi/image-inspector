@@ -9,7 +9,7 @@ signal window_resized(new_size: Vector2i)
 var current_image_path: String = ""
 
 # backward compatibility property for existing references
-var image: String:
+var image : String:
 	get:
 		return current_image_path
 	set(value):
