@@ -1,111 +1,140 @@
-[gd_scene load_steps=7 format=3 uid="uid://skf3behebgvy"]
+[gd_scene load_steps=13 format=3 uid="uid://skf3behebgvy"]
 
 [ext_resource type="Script" uid="uid://dy40lfb2ucdba" path="res://image_display.gd" id="1_g3q12"]
+[ext_resource type="Shader" uid="uid://ckly0og0nej3v" path="res://image_inspector.gdshader" id="2_shader"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3q12"]
-bg_color = Color(0.6, 0.6, 0.6, 0.368627)
-corner_detail = 12
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_insp"]
+shader = ExtResource("2_shader")
+shader_parameter/channel_mode = 0
+shader_parameter/show_checkerboard = true
+shader_parameter/checker_size = 16.0
+shader_parameter/checker_color1 = Color(0.14, 0.15, 0.18, 1)
+shader_parameter/checker_color2 = Color(0.2, 0.22, 0.26, 1)
+shader_parameter/show_pixel_grid = false
+shader_parameter/current_zoom = 1.0
+shader_parameter/min_grid_zoom = 6.0
+shader_parameter/grid_line_color = Color(1, 1, 1, 0.25)
 
-[sub_resource type="Theme" id="Theme_g3q12"]
-Label/colors/font_shadow_color = Color(0, 0, 0, 0.513726)
-Label/constants/shadow_outline_size = 8
-Label/font_sizes/font_size = 56
-Label/styles/normal = SubResource("StyleBoxFlat_g3q12")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.22, 0.25, 0.33, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.43, 0.55, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.14, 0.16, 0.21, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.28, 0.36, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.11, 0.12, 0.16, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.25, 0.32, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Theme" id="Theme_hud"]
+Button/font_sizes/font_size = 13
+Button/styles/hover = SubResource("StyleBoxFlat_btn_hover")
+Button/styles/normal = SubResource("StyleBoxFlat_btn_normal")
+Button/styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_floating_bar"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.09, 0.1, 0.13, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.28, 0.36, 0.5)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+content_margin_left = 22.0
+content_margin_top = 8.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.11, 0.15, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.36, 0.46, 0.7)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 14
 
 [sub_resource type="Animation" id="Animation_50c60"]
 length = 0.001
-tracks/0/type = "bezier"
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("tooltipLabel:modulate:r")
+tracks/0/path = NodePath("UILayer/HUD/TooltipLabel:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("tooltipLabel:modulate:g")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("tooltipLabel:modulate:b")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("tooltipLabel:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_g3q12"]
 resource_name = "error"
 length = 1.4
-step = 0.01
-tracks/0/type = "bezier"
+step = 0.05
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("tooltipLabel:modulate:r")
+tracks/0/path = NodePath("UILayer/HUD/TooltipLabel:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 1, 1.4)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("tooltipLabel:modulate:g")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 1, 1.4)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("tooltipLabel:modulate:b")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 1, 1.4)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("tooltipLabel:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 1, 1.4)
+"times": PackedFloat32Array(0, 0.18, 1, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rlanv"]
@@ -123,60 +152,180 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g3q12")
-pan_sensitivity = 2.25
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.06, 0.07, 0.09, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_insp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="dragZone" type="Panel" parent="."]
-visible = false
-layout_mode = 1
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UILayer"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_hud")
 
-[node name="UI" type="Control" parent="."]
-visible = false
+[node name="TopBar" type="PanelContainer" parent="UILayer/HUD"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = -14.0
+offset_bottom = 48.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_floating_bar")
 
-[node name="topBar" type="HBoxContainer" parent="UI"]
+[node name="Margin" type="MarginContainer" parent="UILayer/HUD/TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBox" type="HBoxContainer" parent="UILayer/HUD/TopBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BackButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Back"
+
+[node name="OpenButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Open"
+
+[node name="ReloadButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Reload"
+
+[node name="VSep1" type="VSeparator" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+
+[node name="PrevButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = " < "
+
+[node name="NextButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = " > "
+
+[node name="FileInfoLabel" type="Label" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "No image loaded"
+text_overrun_behavior = 3
+
+[node name="VSep2" type="VSeparator" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+
+[node name="ChannelButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Mode: RGB"
+
+[node name="GridButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Grid: Off"
+
+[node name="CheckerButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Checker"
+
+[node name="FilterButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Filter: Auto"
+
+[node name="InfoButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = "Info"
+
+[node name="HelpButton" type="Button" parent="UILayer/HUD/TopBar/Margin/HBox"]
+layout_mode = 2
+text = " ? "
+
+[node name="BottomBar" type="PanelContainer" parent="UILayer/HUD"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
-offset_bottom = 31.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -48.0
+offset_right = -14.0
+offset_bottom = -10.0
 grow_horizontal = 2
-alignment = 1
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_floating_bar")
 
-[node name="openFile" type="Button" parent="UI/topBar"]
+[node name="Margin" type="MarginContainer" parent="UILayer/HUD/BottomBar"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Open File"
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
 
-[node name="saveFile" type="Button" parent="UI/topBar"]
+[node name="HBox" type="HBoxContainer" parent="UILayer/HUD/BottomBar/Margin"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Save File"
+theme_override_constants/separation = 10
 
-[node name="exit" type="Button" parent="UI/topBar"]
+[node name="ZoomLabel" type="Label" parent="UILayer/HUD/BottomBar/Margin/HBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Exit"
+theme_override_font_sizes/font_size = 13
+text = "Zoom: 100%"
 
-[node name="tooltipLabel" type="Label" parent="."]
+[node name="FitButton" type="Button" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+text = "Fit (0)"
+
+[node name="ActualButton" type="Button" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+text = "1:1 (1)"
+
+[node name="VSep1" type="VSeparator" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+
+[node name="PixelCoordsLabel" type="Label" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.81, 0.88, 1)
+theme_override_font_sizes/font_size = 13
+text = "X: -  Y: -"
+
+[node name="VSep2" type="VSeparator" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+
+[node name="PixelColorLabel" type="Label" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.81, 0.88, 1)
+theme_override_font_sizes/font_size = 13
+text = "RGBA: -  Hex: -"
+
+[node name="ColorSwatch" type="ColorRect" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0, 0, 0, 0)
+
+[node name="CopyColorButton" type="Button" parent="UILayer/HUD/BottomBar/Margin/HBox"]
+layout_mode = 2
+text = "Copy Hex"
+
+[node name="TooltipLabel" type="Label" parent="UILayer/HUD"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -184,21 +333,61 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -195.0
-offset_top = -38.5
-offset_right = 195.0
-offset_bottom = 38.5
+offset_left = -160.0
+offset_top = -22.0
+offset_right = 160.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(195, 38)
-theme = SubResource("Theme_g3q12")
-text = "max zoom-out"
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_toast")
+text = "notification"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="tooltipAnim" type="AnimationPlayer" parent="."]
+[node name="TooltipAnim" type="AnimationPlayer" parent="UILayer/HUD"]
+root_node = NodePath("../../..")
 libraries = {
 &"": SubResource("AnimationLibrary_rlanv")
 }
 
+[node name="OpenFileDialog" type="FileDialog" parent="UILayer"]
+title = "Open a File"
+position = Vector2i(0, 36)
+size = Vector2i(880, 560)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.svg, *.bmp, *.tga ; Supported Images", "*.png ; PNG Images", "*.jpg, *.jpeg ; JPEG Images", "*.webp ; WebP Images", "*.svg ; SVG Images", "*.bmp ; BMP Images", "*.tga ; Targa Images", "*.* ; All Files")
+
+[node name="ErrorDialog" type="AcceptDialog" parent="UILayer"]
+title = "Error"
+size = Vector2i(420, 130)
+dialog_text = "Failed to load image file."
+
+[node name="MetadataDialog" type="AcceptDialog" parent="UILayer"]
+title = "Image Information"
+size = Vector2i(480, 350)
+dialog_text = "Image Metadata"
+
+[node name="HelpDialog" type="AcceptDialog" parent="UILayer"]
+title = "Keyboard Shortcuts"
+size = Vector2i(520, 420)
+dialog_text = "Shortcuts"
+
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/OpenButton" to="." method="_on_open_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/ReloadButton" to="." method="_on_reload_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/PrevButton" to="." method="_on_prev_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/ChannelButton" to="." method="_on_channel_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/GridButton" to="." method="_on_grid_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/CheckerButton" to="." method="_on_checker_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/FilterButton" to="." method="_on_filter_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/InfoButton" to="." method="_on_info_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/TopBar/Margin/HBox/HelpButton" to="." method="_on_help_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/BottomBar/Margin/HBox/FitButton" to="." method="_on_fit_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/BottomBar/Margin/HBox/ActualButton" to="." method="_on_actual_button_pressed"]
+[connection signal="pressed" from="UILayer/HUD/BottomBar/Margin/HBox/CopyColorButton" to="." method="_on_copy_color_button_pressed"]
+[connection signal="file_selected" from="UILayer/OpenFileDialog" to="." method="_on_file_dialog_file_selected"]

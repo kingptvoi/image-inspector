@@ -1,0 +1,211 @@
+================================================================================
+IMAGE INSPECTOR (GODOT 4.4) - COMPREHENSIVE PROJECT IMPROVEMENT & ROADMAP PLAN
+================================================================================
+
+Target Engine: Godot Engine 4.4+ (GL Compatibility Renderer)
+Language: GDScript (Static Typing)
+Purpose: Transform the basic image viewer prototype into a robust, high-performance,
+         feature-rich, professional Image Inspector for game developers, artists,
+         and designers.
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1. CURRENT CODEBASE AUDIT & ARCHITECTURAL DEFICIENCIES
+2. PHASE 1: CORE ARCHITECTURE REFACTOR & CRITICAL BUG FIXES
+3. PHASE 2: VIEWPORT, CAMERA & ADVANCED NAVIGATION MECHANICS
+4. PHASE 3: CORE INSPECTOR SUITE (PIXEL, COLOR & METADATA ANALYSIS)
+5. PHASE 4: VISUAL ANALYSIS SHADERS & CHANNEL ISOLATION
+6. PHASE 5: FILE MANAGEMENT, DIRECTORY BROWSING & OS INTEGRATION
+7. PHASE 6: UI/UX, HUD OVERLAY, SHORTCUTS & THEME POLISH
+8. PHASE 7: ADVANCED / EXTENDED INSPECTION FEATURES
+9. STEP-BY-STEP IMPLEMENTATION ROADMAP FOR AI AGENT EXECUTION
+
+================================================================================
+1. CURRENT CODEBASE AUDIT & ARCHITECTURAL DEFICIENCIES
+================================================================================
+
+1.1 Bug: Inconsistent Texture Filter Switching [RESOLVED]
+    - File: image_display.gd (filter_mode)
+    - Status: Fixed. Texture filtering (Auto/Nearest/Linear) updates reliably
+      across mouse wheel, trackpad pinch, and toolbar button toggle.
+
+1.2 Bug: Crash on Invalid / Corrupted Image Load [RESOLVED]
+    - File: image_display.gd (image_load, image_scale_check)
+    - Status: Fixed. Uses FileAccess validation and presents clean non-crashing
+      error dialogs.
+
+1.3 Architecture Anti-Pattern: UI Nested Directly in Camera Space [RESOLVED]
+    - Files: imageDisplay.tscn, image_display.gd
+    - Status: Fixed. UI separated into dedicated CanvasLayer ("UILayer").
+
+1.4 Performance: Redundant _process() Polling [RESOLVED]
+    - File: app.gd
+    - Status: Fixed. Eliminated per-frame DisplayServer polling. Anchors and
+      signals handle window layout cleanly.
+
+1.5 Bug: Window Resizing Desync in Image Viewer [RESOLVED]
+    - File: image_display.gd (_on_resized)
+    - Status: Fixed. Window resizing recalculates camera clamps and viewport scale.
+
+1.6 Orphaned / Dead Code [RESOLVED]
+    - Files: ui.tscn, ui.gd
+    - Status: Cleaned up. Unused test files removed.
+
+================================================================================
+2. PHASE 1: CORE ARCHITECTURE REFACTOR & CRITICAL BUG FIXES
+================================================================================
+
+[x] 2.1 Refactor Scene Hierarchy in imageDisplay.tscn:
+    - Root: Control ("imageDisplay")
+      ├── Sprite2D ("Sprite2D" with custom diagnostic shader material)
+      ├── Camera2D ("Camera2D")
+      └── CanvasLayer ("UILayer"):
+          ├── Control ("HUD")
+          │   ├── PanelContainer ("TopBar")
+          │   ├── PanelContainer ("BottomBar")
+          │   └── Label ("TooltipLabel") + AnimationPlayer ("TooltipAnim")
+          ├── FileDialog ("OpenFileDialog")
+          ├── AcceptDialog ("ErrorDialog")
+          ├── AcceptDialog ("MetadataDialog")
+          └── AcceptDialog ("HelpDialog")
+
+[x] 2.2 Global State & Typed Autoload (global.gd):
+    - Strictly typed variables: current_image_path, window_size, window_position.
+    - Added signals (image_selected, window_resized).
+    - Added format validation and persistent recent files history (user://recent_files.json).
+
+[x] 2.3 Safe Image Loading with Graceful Error Fallbacks:
+    - Path existence check, format check, and non-crashing AcceptDialog.
+
+[x] 2.4 Eliminate Redundant Polling in app.gd:
+    - Replaced per-frame DisplayServer polling with responsive Control layout containers.
+
+[x] 2.5 Remove Dead Files:
+    - Safely deleted ui.tscn and ui.gd.
+
+================================================================================
+3. PHASE 2: VIEWPORT, CAMERA & ADVANCED NAVIGATION MECHANICS
+================================================================================
+
+[x] 3.1 Cursor-Centered Zooming (Zoom to Mouse Position):
+    - Smooth mathematical cursor-centered zooming via cubic tweens.
+
+[x] 3.2 Dynamic & Extended Zoom Range:
+    - Range: 0.02x to 128.0x.
+    - Smooth tween cancellation and gesture magnification.
+    - Keyboard keys: '=', '+', '-'.
+
+[x] 3.3 Versatile Pan Controls:
+    - Left mouse drag, Middle mouse drag, Trackpad 2-finger pan gesture,
+      and WASD / Arrow keys step-pan.
+
+[x] 3.4 Camera Clamping & Boundary Handling:
+    - Camera position clamped to visible viewport boundaries.
+
+[x] 3.5 One-Click Zoom Presets & Shortcuts:
+    - "Fit to Window" (0 / button)
+    - "100% Actual Size" (1 / button)
+    - "200% Scale" (2)
+    - "400% Scale" (4)
+
+[ ] 3.6 Interactive Minimap / Navigator Overlay:
+    - Small thumbnail in the corner showing the entire image with a viewport
+      frustum rectangle indicating camera position when zoomed in.
+
+================================================================================
+4. PHASE 3: CORE INSPECTOR SUITE (PIXEL, COLOR & METADATA ANALYSIS)
+================================================================================
+
+[x] 4.1 Real-Time Pixel Eyedropper & Coordinate HUD:
+    - Real-time pixel coordinate conversion (X, Y).
+    - Live RGBA readout (0-255) and Hex color code (#RRGGBBAA).
+    - ColorSwatch preview rect in bottom status bar.
+
+[x] 4.2 One-Click Color Copy:
+    - Press 'C' or click "Copy Hex" button to copy hex color to OS clipboard.
+
+[x] 4.3 Pixel Grid Overlay:
+    - High-performance procedural pixel grid in shader when zoomed in (Key: G / button).
+
+[x] 4.4 Transparency Checkerboard Background:
+    - Custom shader-based checkerboard pattern behind transparent PNGs/WebPs (Key: B / button).
+
+[x] 4.5 Image Metadata & Inspector Panel (Key: I / button):
+    - Displays: Dimensions, Aspect Ratio, Megapixels, File Size, Format, and VRAM estimate.
+
+================================================================================
+5. PHASE 4: VISUAL ANALYSIS SHADERS & CHANNEL ISOLATION
+================================================================================
+
+[x] 5.1 Color Channel Isolation (Custom CanvasItem Shader):
+    - Full Color (RGB)
+    - Red Channel Only
+    - Green Channel Only
+    - Blue Channel Only
+    - Alpha Channel Mask (Grayscale)
+    - Hotkey: Tab / button.
+
+[x] 5.2 Visual Diagnostic Filters:
+    - Invert RGB (detect subtle dark artifacts).
+    - Luminance / Grayscale (Rec. 709).
+
+[x] 5.3 Filtering Mode Toggle (Nearest Neighbor vs Linear vs Auto):
+    - Auto switches to Nearest when zoomed in >= 4.0x.
+    - Manual override button and hotkey.
+
+================================================================================
+6. PHASE 5: FILE MANAGEMENT, DIRECTORY BROWSING & OS INTEGRATION
+================================================================================
+
+[x] 6.1 OS Drag-and-Drop Support (Window.files_dropped):
+    - Native drag-and-drop on both Welcome Screen and Active Inspector.
+
+[x] 6.2 In-Folder Directory Navigation (Previous / Next Image):
+    - Parent directory scanning with natural sorting.
+    - Navigation via Left/Right arrows, '[', ']', and toolbar '<' / '>' buttons.
+    - Status readout: "[Index / Total] filename.png".
+
+[x] 6.3 Extended Format Support:
+    - Filters: PNG, JPG, JPEG, WebP, SVG, BMP, TGA.
+
+[x] 6.4 Auto-Reload / Watch File on Disk:
+    - Hotkey (Ctrl+R / Cmd+R) and toolbar button to reload from disk.
+
+[ ] 6.5 Export & Utility Functions:
+    - Save As / Convert (export current image as PNG, JPEG, or WebP).
+    - Copy Image Texture to OS Clipboard.
+
+[x] 6.6 CLI & "Open With" Argument Support:
+    - Checks OS.get_cmdline_args() and OS.get_cmdline_user_args() on startup.
+
+================================================================================
+7. PHASE 6: UI/UX, HUD OVERLAY, SHORTCUTS & THEME POLISH
+================================================================================
+
+[x] 7.1 Modern Clean HUD Overlay:
+    - Minimalist, semi-transparent top and bottom bars.
+    - Fullscreen toggle (F11 / Cmd+F).
+    - Zen mode: toggle all HUD elements with 'H'.
+
+[x] 7.2 Keyboard Shortcuts & Cheatsheet Modal (Key: ? or F1):
+    - Comprehensive shortcut reference popup.
+
+[x] 7.3 Recent Files History:
+    - Persisted in user://recent_files.json.
+
+================================================================================
+8. PHASE 7: ADVANCED / EXTENDED INSPECTION FEATURES
+================================================================================
+
+[ ] 8.1 Image Measurement / Ruler Tool:
+    - Click and drag to measure pixel distances and bounding boxes.
+    - Displays: Width (px), Height (px), Diagonal Distance (px), Angle (degrees).
+
+[ ] 8.2 Image Comparison / Split-Screen Diff:
+    - Load a secondary image to compare (e.g. original vs compressed or before vs after).
+    - Slider / Wipe tool to scrub between Image A and Image B.
+
+[ ] 8.3 Histogram Display:
+    - Compute and display real-time RGB / Luminance histograms in the Inspector dock.
+================================================================================
