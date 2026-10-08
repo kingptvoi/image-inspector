@@ -6,6 +6,8 @@ extends Control
 # textureSize: the size of the image that is loaded in pixels
 # windowSize: the size of the program's window in pixels
 
+# DONT FORGET TO ADD COMMENTS
+
 #@onready var UserInterface = $UserInterface
 @onready var tooltipLabel = $tooltipLabel
 @onready var tooltipAnim = $tooltipAnim
